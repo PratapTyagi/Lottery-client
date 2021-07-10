@@ -8,6 +8,7 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [balance, setBalance] = useState("");
   const [value, setValue] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const getManager = async () => await lottery.methods.manager().call();
@@ -16,11 +17,19 @@ function App() {
     getPlayers().then((data) => setPlayers(data));
     const getBalance = async () =>
       await web3.eth.getBalance(lottery.options.address);
-    getBalance().then((data) => setBalance(data));
+    getBalance().then((data) => setBalance(web3.utils.fromWei(data, "ether")));
   }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const accounts = await web3.eth.requestAccounts();
+    console.log(accounts);
+    setMessage("Getting registered to lottery please wait!");
+    await lottery.methods.enter().send({
+      from: accounts[0],
+      value: web3.utils.toWei(value, "ether"),
+    });
+    setMessage("Successfully registered.");
   };
 
   return (
@@ -54,7 +63,7 @@ function App() {
           <button type="submit">Enter</button>
         </form>
         <div className="app__bottom__right">
-          <p>Loading</p>
+          <p>{message}</p>
         </div>
       </div>
     </div>
