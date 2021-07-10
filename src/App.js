@@ -8,7 +8,8 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [balance, setBalance] = useState("");
   const [value, setValue] = useState("");
-  const [message, setMessage] = useState("");
+  const [loader1, setLoader1] = useState(false);
+  const [loader2, setLoader2] = useState(false);
 
   useEffect(() => {
     const getManager = async () => await lottery.methods.manager().call();
@@ -18,18 +19,27 @@ function App() {
     const getBalance = async () =>
       await web3.eth.getBalance(lottery.options.address);
     getBalance().then((data) => setBalance(web3.utils.fromWei(data, "ether")));
-  }, []);
+  }, [players, balance]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     const accounts = await web3.eth.requestAccounts();
-    console.log(accounts);
-    setMessage("Getting registered to lottery please wait!");
+    setLoader1(true);
     await lottery.methods.enter().send({
       from: accounts[0],
       value: web3.utils.toWei(value, "ether"),
     });
-    setMessage("Successfully registered.");
+    setLoader1(false);
+  };
+
+  const onClick = async (e) => {
+    e.preventDefault();
+    const accounts = await web3.eth.requestAccounts();
+    setLoader2(true);
+    await lottery.methods.pickWinner().send({
+      from: accounts[0],
+    });
+    setLoader2(false);
   };
 
   return (
@@ -60,10 +70,21 @@ function App() {
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
-          <button type="submit">Enter</button>
+          {loader1 ? (
+            <p className="loading"></p>
+          ) : (
+            <button type="submit">Enter</button>
+          )}
         </form>
         <div className="app__bottom__right">
-          <p>{message}</p>
+          <div>
+            <p>Ready to pick winner?</p>
+            {loader2 ? (
+              <p className="loading"></p>
+            ) : (
+              <button onClick={onClick}>Pick Winner</button>
+            )}
+          </div>
         </div>
       </div>
     </div>
