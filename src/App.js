@@ -19,6 +19,10 @@ function App() {
     getBalance().then((data) => setBalance(data));
   }, []);
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="app">
       <header>
@@ -35,6 +39,23 @@ function App() {
         <h4>
           Winning prize: <br /> {balance} ether
         </h4>
+      </div>
+      <div className="app__bottom">
+        <form onSubmit={onSubmit}>
+          <h3>Try your luck !</h3>
+          <div>
+            <p>Amount of ether</p>
+            <input
+              type="text"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+          </div>
+          <button type="submit">Enter</button>
+        </form>
+        <div className="app__bottom__right">
+          <p>Loading</p>
+        </div>
       </div>
     </div>
   );

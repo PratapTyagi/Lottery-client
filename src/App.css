@@ -30,6 +30,69 @@ header > h1 {
   font-weight: 500;
 }
 
+.app__bottom {
+  display: flex;
+  width: 65%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.app__bottom > form {
+  flex: 4;
+  background-color: whitesmoke;
+  margin-right: 10px;
+  padding: 10px;
+  text-align: left;
+}
+
+.app__bottom > form > h3 {
+  padding: 5px;
+  font-weight: 500;
+}
+
+.app__bottom > form > div {
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: grey;
+}
+
+.app__bottom > form > div > input {
+  outline: none;
+  border: none;
+  padding: 8px;
+  margin: 3px;
+  margin-left: 0;
+  border-bottom: 1px solid black;
+}
+.app__bottom > form > div > input:focus {
+  border-bottom: 1px solid rgb(25, 124, 107);
+}
+
+.app__bottom > form > button {
+  padding: 10px;
+  margin: 5px;
+  color: rgb(25, 124, 107);
+  border: 2px solid rgb(25, 124, 107);
+  border-radius: 10px;
+  background-color: whitesmoke;
+  cursor: pointer;
+}
+
+.app__bottom > form > button:hover {
+  color: white;
+  background-color: rgb(25, 124, 107);
+  transition: background-color 0.3s ease-out;
+}
+
+.app__bottom > div {
+  flex: 4;
+  background-color: whitesmoke;
+  margin-left: 10px;
+  padding: 10px;
+}
+
 @media screen and (max-width: 800px) {
   .app__top > h4 > p {
     font-size: 10px;
